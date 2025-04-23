@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Unit 8 - Rocks</title>
+    <title>Complete Rock Cycle Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --igneous: #c53d13;
+            --sedimentary: #d4a713;
+            --metamorphic: #2c3e50;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -12,115 +21,386 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f0f0f0;
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #f9f9f9;
         }
 
-        header {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 2rem;
+        h1, h2, h3 {
+            font-family: 'Merriweather', serif;
+            margin-bottom: 1.5rem;
         }
 
-        .container {
+        h1 { font-size: 2.8rem; line-height: 1.2; }
+        h2 { font-size: 2.2rem; margin-top: 3rem; }
+        h3 { font-size: 1.4rem; color: #444; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1.2rem;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
         }
 
-        .earth-layers {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 2rem 0;
+        nav a {
+            color: #444;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-weight: 600;
         }
 
-        .layer {
-            width: 80%;
-            padding: 1rem;
-            margin: 0.5rem;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
+        nav a:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
         }
 
-        .crust { background-color: #8b4513; }
-        .mantle { background-color: #cd5c5c; }
-        .outer-core { background-color: #ff8c00; }
-        .inner-core { background-color: #ffd700; }
-
-        .rock-cycle {
+        /* Section Styling */
+        .chapter {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: 3fr 1fr;
+            gap: 3rem;
         }
 
-        .rock-type {
-            padding: 1rem;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .igneous-bg {
+            background: linear-gradient(45deg, #fff5f3, #ffffff);
+            border-bottom: 1px solid #ffe5e0;
         }
 
-        .connection {
-            background-color: white;
+        .sedimentary-bg {
+            background: linear-gradient(45deg, #fff9e6, #ffffff);
+            border-bottom: 1px solid #ffedcc;
+        }
+
+        .metamorphic-bg {
+            background: linear-gradient(45deg, #f5f6f8, #ffffff);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        /* Sidebar */
+        .sidebar {
             padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
+            background: #ffffff;
+            border-left: 4px solid;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-top: 4rem;
+            height: fit-content;
         }
 
-        h2, h3 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
+        .sidebar.igneous { border-color: var(--igneous); }
+        .sidebar.sedimentary { border-color: var(--sedimentary); }
+        .sidebar.metamorphic { border-color: var(--metamorphic); }
+
+        .sidebar h3 {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+            color: #fff;
+            background: #444;
+            padding: 0.8rem 1rem;
+            margin: -2rem -2rem 2rem;
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Content Elements */
+        .card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .key-term {
+            font-weight: 600;
+            color: var(--igneous);
+            border-bottom: 2px dotted currentColor;
+            cursor: help;
+        }
+
+        .case-study {
+            background: #fff;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            position: relative;
+        }
+
+        .case-study::before {
+            content: "Case Study";
+            position: absolute;
+            top: -13px;
+            left: 20px;
+            background: #fff;
+            padding: 0 1rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--igneous);
+        }
+
+        /* Process Diagram */
+        .process {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .chapter {
+                grid-template-columns: 1fr;
+                padding: 4rem 1.5rem;
+            }
+            
+            .sidebar {
+                margin-top: 2rem;
+                grid-column: 1;
+            }
         }
 
         @media (max-width: 768px) {
-            .rock-cycle {
-                grid-template-columns: 1fr;
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
             }
+            
+            nav a {
+                padding: 0.6rem 1rem;
+                margin: 0.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chapter {
+            animation: fadeIn 0.6s ease-out;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Unit 8 - Rocks</h1>
-        <p>A full explanation for Unit 8.</p>
-    </header>
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#igneous">Igneous</a></li>
+            <li><a href="#sedimentary">Sedimentary</a></li>
+            <li><a href="#metamorphic">Metamorphic</a></li>
+        </ul>
+    </nav>
 
-    <div class="container">
-        <section class="earth-layers">
-            <h2>Earth's Layers</h2>
-            <div class="layer crust">Crust (5-70 km) - Solid rock surface</div>
-            <div class="layer mantle">Mantle (2,900 km) - Semi-solid silicate rock</div>
-            <div class="layer outer-core">Outer Core (2,200 km) - Liquid iron/nickel</div>
-            <div class="layer inner-core">Inner Core (1,220 km) - Solid iron/nickel</div>
-        </section>
+    <section id="overview" class="igneous-bg">
+        <div class="chapter">
+            <div class="main-content">
+                <h1>The Rock Cycle: Earth's Eternal Recycler</h1>
+                <p class="lead">The rock cycle is the continuous process of rock transformation that shapes our planet's surface and interior. Over geological timescales, rocks transition between three main types through various physical and chemical processes.</p>
 
-        <section class="rock-cycle">
-            <div class="rock-type">
-                <h3>Igneous Rocks</h3>
-                <p>Formed from cooling magma (intrusive) or lava (extrusive)</p>
-            </div>
-            <div class="rock-type">
-                <h3>Sedimentary Rocks</h3>
-                <p>Formed from compressed sediments</p>
-            </div>
-            <div class="rock-type">
-                <h3>Metamorphic Rocks</h3>
-                <p>Formed from existing rocks under heat/pressure</p>
-            </div>
-        </section>
+                <div class="process">
+                    <div class="process-step">
+                        <h3> Igneous</h3>
+                        <p>Formed from cooled magma</p>
+                    </div>
+                    <div class="process-step">
+                        <h3> Weathering</h3>
+                        <p>Breaking down of rocks</p>
+                    </div>
+                    <div class="process-step">
+                        <h3> Transformation</h3>
+                        <p>Heat & pressure changes</p>
+                    </div>
+                </div>
 
-        <section class="connection">
-            <h2>How Layers Influence the Rock Cycle</h2>
-            <p> <strong>Crust:</strong> Where weathering/erosion creates sediments and where magma cools to form igneous rocks</p>
-            <p> <strong>Mantle:</strong> Source of magma through partial melting (forms igneous rocks when cooled)</p>
-            <p> <strong>Core:</strong> Heat drives mantle convection that causes tectonic movement and metamorphism</p>
-            <p> The continuous cycle: Rocks are transformed through processes powered by Earth's internal heat (core) and surface processes (crust)</p>
-        </section>
-    </div>
+                <div class="case-study">
+                    <h2>Historical Significance</h2>
+                    <p>The rock cycle has shaped human civilization through:</p>
+                    <ul>
+                        <li>Flint tools in prehistoric times</li>
+                        <li>Marble sculptures of antiquity</li>
+                        <li>Modern concrete infrastructure</li>
+                    </ul>
+                </div>
+            </div>
+
+            <aside class="sidebar igneous">
+                <h3>Key Concepts</h3>
+                <p>• Timescale: Millions of years</p>
+                <p>• Energy Sources: Earth's internal heat & solar energy</p>
+                <p>• Plate Tectonics: Primary driver</p>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Igneous Rock Section -->
+    <section id="igneous" class="igneous-bg">
+        <div class="chapter">
+            <div class="main-content">
+                <h1>Igneous Rocks: Born of Fire</h1>
+                <p class="lead">Igneous rocks form through the cooling and crystallization of molten rock material, either below the surface as intrusive rocks or on the surface as extrusive volcanic rocks.</p>
+
+                <div class="card">
+                    <h2>Formation Process</h2>
+                    <p>When <span class="key-term">magma</span> cools slowly beneath Earth's crust, it forms coarse-grained intrusive rocks like granite. Rapid cooling of <span class="key-term">lava</span> at the surface creates fine-grained extrusive rocks like basalt.</p>
+                </div>
+
+                <div class="case-study">
+                    <h2>Economic Importance</h2>
+                    <p>Igneous rocks are essential in:</p>
+                    <ul>
+                        <li>Construction (granite countertops)</li>
+                        <li>Abrasives (pumice stones)</li>
+                        <li>Technology (quartz in electronics)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <aside class="sidebar igneous">
+                <h3>Fast Facts</h3>
+                <p>• Ocean crust is 99% basalt</p>
+                <p>• Granite forms continental cores</p>
+                <p>• Obsidian fractures atomically</p>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Sedimentary Rock Section -->
+    <section id="sedimentary" class="sedimentary-bg">
+        <div class="chapter">
+            <div class="main-content">
+                <h1>Sedimentary Rocks: Earth's Archives</h1>
+                <p class="lead">Formed from accumulated sediments, these layered rocks preserve Earth's history through fossils and stratification patterns.</p>
+
+                <div class="process">
+                    <div class="process-step">
+                        <h3>1. Weathering</h3>
+                        <p>Rock breakdown</p>
+                    </div>
+                    <div class="process-step">
+                        <h3>2. Erosion</h3>
+                        <p>Sediment transport</p>
+                    </div>
+                    <div class="process-step">
+                        <h3>3. Lithification</h3>
+                        <p>Compaction & cementation</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Major Types</h2>
+                    <p><strong>Clastic:</strong> Formed from fragments (sandstone)<br>
+                    <strong>Chemical:</strong> Precipitated minerals (limestone)<br>
+                    <strong>Organic:</strong> Biological remains (coal)</p>
+                </div>
+            </div>
+
+            <aside class="sidebar sedimentary">
+                <h3>Did You Know?</h3>
+                <p>• Grand Canyon reveals 2B years</p>
+                <p>• Chalk is fossilized plankton</p>
+                <p>• Salt flats form evaporites</p>
+            </aside>
+        </div>
+    </section>
+
+    <!-- Metamorphic Rock Section -->
+    <section id="metamorphic" class="metamorphic-bg">
+        <div class="chapter">
+            <div class="main-content">
+                <h1>Metamorphic Rocks: Transformed by Pressure</h1>
+                <p class="lead">Existing rocks transformed by heat and pressure without melting, creating new structures and mineral compositions.</p>
+
+                <div class="card">
+                    <h2>Metamorphic Textures</h2>
+                    <p><strong>Foliated:</strong> Layered minerals (schist)<br>
+                    <strong>Non-foliated:</strong> Uniform texture (marble)</p>
+                </div>
+
+                <div class="case-study">
+                    <h2>Human Utilization</h2>
+                    <ul>
+                        <li>Slate roofing tiles</li>
+                        <li>Marble architecture</li>
+                        <li>Talcum powder production</li>
+                    </ul>
+                </div>
+            </div>
+
+            <aside class="sidebar metamorphic">
+                <h3>Metamorphic Grades</h3>
+                <p>Low: 200-320°C (slate)<br>
+                Medium: 320-450°C (schist)<br>
+                High: 450-900°C (gneiss)</p>
+            </aside>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.chapter').forEach(chapter => {
+            chapter.style.opacity = 0;
+            chapter.style.transform = 'translateY(20px)';
+            chapter.style.transition = 'all 0.6s ease-out';
+            observer.observe(chapter);
+        });
+    </script>
 </body>
 </html>
